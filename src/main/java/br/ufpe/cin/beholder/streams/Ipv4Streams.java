@@ -7,8 +7,11 @@ import org.pcap4j.core.PcapHandle;
 import org.pcap4j.core.PcapNetworkInterface;
 import org.pcap4j.core.Pcaps;
 import org.pcap4j.core.PcapNetworkInterface.PromiscuousMode;
+import org.pcap4j.packet.IcmpV4CommonPacket.IcmpV4CommonHeader;
+import org.pcap4j.packet.IcmpV4EchoPacket;
 import org.pcap4j.packet.IpV4Packet;
 import org.pcap4j.packet.Packet;
+import org.pcap4j.packet.namednumber.IcmpV4Type;
 import org.pcap4j.packet.namednumber.IpNumber;
 
 import com.espertech.esper.client.EPRuntime;
@@ -25,6 +28,7 @@ public class Ipv4Streams extends Thread {
 
 	public void run() {
 		int icmpv4Count = 0;
+		int RequestCount = 0;
 
 		while (true) {
 			try {
@@ -46,14 +50,24 @@ public class Ipv4Streams extends Thread {
 					Inet4Address srcAddr = ipV4Packet.getHeader().getSrcAddr();
 					Inet4Address dstAddr = ipV4Packet.getHeader().getDstAddr();
 					short length = ipV4Packet.getHeader().getTotalLength();
+
+					//IcmpV4Type.ECHO_REPLY != null;
+					//IcmpV4Code
+					//icmpV4EchoReply
 					
-					if (IpNumber.ICMPV4 != null) {
-						icmpv4Count++;
+					if (IcmpV4Type.ECHO_REPLY == null) {
+						RequestCount++;
 					} else
-						icmpv4Count = 0;
+						RequestCount = 0;
+					
+					//if (IpNumber.ICMPV4 != null) {
+					//	icmpv4Count++;
+					//} else
+					//	icmpv4Count = 0;
 
 					Thread.sleep(20);
-					this.cepLocal.sendEvent(new Ipv4PacketSender(srcAddr.toString(), dstAddr.toString(), length, icmpv4Count));
+					this.cepLocal.sendEvent(
+							new Ipv4PacketSender(srcAddr.toString(), dstAddr.toString(), length, icmpv4Count));
 					System.out.println(ipV4Packet);
 
 				} catch (Exception e) {

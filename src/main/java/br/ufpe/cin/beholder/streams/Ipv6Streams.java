@@ -42,7 +42,7 @@ public class Ipv6Streams extends Thread {
 					Inet6Address dstAddr = ipV6Packet.getHeader().getDstAddr();
 					short length = ipV6Packet.getHeader().getPayloadLength();
 
-					this.cepLocal.sendEvent(new Ipv6PacketSender());
+					//this.cepLocal.sendEvent(new Ipv6PacketSender(length));
 					Thread.sleep(1000);
 
 				} catch (Exception e) {

@@ -4,12 +4,12 @@ public class TcpPacketSender {
 
 	private String srcAddr;
 	private String dstAddr;
-	private short length;
+	private int length;
 	private boolean syn;
 	private boolean ack;
 	private int synCount;
 
-	public TcpPacketSender(String srcAddr, String dstAddr,  short length, boolean syn, boolean ack, int synCount) {
+	public TcpPacketSender(String srcAddr, String dstAddr,  int length, boolean syn, boolean ack, int synCount) {
 		this.srcAddr = srcAddr;
 		this.dstAddr = dstAddr;
 		this.length = length;
@@ -18,7 +18,7 @@ public class TcpPacketSender {
 		this.synCount = synCount;
 	}
 
-	public short getPacketLen() {
+	public int getPacketLen() {
 		return length;
 	}
 
@@ -38,7 +38,7 @@ public class TcpPacketSender {
 		this.dstAddr = dstAddr;
 	}
 
-	public short getLength() {
+	public int getLength() {
 		return length;
 	}
 
