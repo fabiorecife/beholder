@@ -1,4 +1,4 @@
-package br.ufpe.cin.beholder.pcap;
+package br.ufpe.cin.beholder.packets;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.pcap4j.packet.IpV4Packet.IpV4Tos;
 import org.pcap4j.packet.namednumber.IpNumber;
 import org.pcap4j.packet.namednumber.IpVersion;
 
-public class Ipv4Packet {
+public class Ipv4PacketSender {
 
 	/*
 	 * 0 16 31 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -39,15 +39,17 @@ public class Ipv4Packet {
 	private String dstAddr;
 	private List<IpV4Option> options;
 	private byte[] padding;
+	private int icmpv4Count;
 
-	public Ipv4Packet() {
+	public Ipv4PacketSender() {
 
 	}
 
-	public Ipv4Packet(String srcAddr, String dstAddr, short length) {
+	public Ipv4PacketSender(String srcAddr, String dstAddr, short length, int icmpv4Count) {
 		this.length = length;
 		this.srcAddr = srcAddr;
 		this.dstAddr = dstAddr;
+		this.icmpv4Count = icmpv4Count; 
 	}
 
 	public IpVersion getVersion() {
@@ -112,6 +114,10 @@ public class Ipv4Packet {
 
 	public byte[] getPadding() {
 		return padding;
+	}
+	
+	public int getIcmpv4Count() {
+		return icmpv4Count;
 	}
 
 }

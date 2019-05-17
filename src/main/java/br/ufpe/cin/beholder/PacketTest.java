@@ -1,5 +1,7 @@
 package br.ufpe.cin.beholder;
 
+//import org.pcap4j.packet.TcpPacket;
+
 public class PacketTest {
 
 	private String srcAddr;
@@ -8,14 +10,18 @@ public class PacketTest {
 	private boolean syn;
 	private boolean ack;
 	private int synCount;
+	// TcpPacket tcpPacket;
 
-	public PacketTest(String srcAddr, String dstAddr,  short length, boolean syn, boolean ack, int synCount) {
+	public PacketTest(String srcAddr, String dstAddr, boolean syn, boolean ack, int synCount) {
 		this.srcAddr = srcAddr;
 		this.dstAddr = dstAddr;
-		this.length = length;
+		// this.length = length;
 		this.syn = syn;
 		this.ack = ack;
 		this.synCount = synCount;
+		// this.tcpPacket = tcpPacket;
+		// this.tcpPacket = tcpPacket;
+		// this.synCount = synCount;
 	}
 
 	public short getPacketLen() {
@@ -42,18 +48,6 @@ public class PacketTest {
 		return length;
 	}
 
-	public void setLength(short length) {
-		this.length = length;
-	}
-
-	public int getSynCount() {
-		return synCount;
-	}
-
-	public void setSynCount(int synCount) {
-		this.synCount = synCount;
-	}
-
 	public boolean isSyn() {
 		return syn;
 	}
@@ -62,12 +56,8 @@ public class PacketTest {
 		return ack;
 	}
 
-	public void setSyn(boolean syn) {
-		this.syn = syn;
-	}
-
-	public void setAck(boolean ack) {
-		this.ack = ack;
+	public int getSynCount() {
+		return synCount;
 	}
 
 }

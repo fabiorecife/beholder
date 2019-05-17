@@ -1,4 +1,4 @@
-package br.ufpe.cin.beholder.pcap;
+package br.ufpe.cin.beholder.packets;
 
 //import java.net.Inet6Address;
 
@@ -8,7 +8,7 @@ import org.pcap4j.packet.IpV6Packet.IpV6TrafficClass;
 import org.pcap4j.packet.namednumber.IpNumber;
 import org.pcap4j.packet.namednumber.IpVersion;
 
-public class Ipv6Packet {
+public class Ipv6PacketSender {
 
 	/*
 	 * 0 16 32 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -33,7 +33,7 @@ public class Ipv6Packet {
 	private Packet.Builder payloadBuilder;
 	private boolean correctLengthAtBuild;
 
-	public Ipv6Packet() {
+	public Ipv6PacketSender() {
 	}
 
 	public IpVersion getVersion() {

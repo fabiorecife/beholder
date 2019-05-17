@@ -1,4 +1,4 @@
-package br.ufpe.cin.beholder.pcap;
+package br.ufpe.cin.beholder.packets;
 
 import java.net.InetAddress;
 
@@ -7,7 +7,7 @@ import org.pcap4j.packet.namednumber.ArpOperation;
 import org.pcap4j.packet.namednumber.EtherType;
 import org.pcap4j.util.MacAddress;
 
-public class ArpFrame {
+public class ArpFrameSender {
 
 	private ArpHardwareType hardwareType;
 	private EtherType protocolType;
@@ -19,7 +19,7 @@ public class ArpFrame {
 	private MacAddress dstHardwareAddr;
 	private InetAddress dstProtocolAddr;
 
-	public ArpFrame() {
+	public ArpFrameSender() {
 
 	}
 

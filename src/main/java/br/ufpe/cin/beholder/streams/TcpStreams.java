@@ -45,7 +45,7 @@ public class TcpStreams extends Thread {
 
 					Inet4Address srcAddr = ipV4Packet.getHeader().getSrcAddr();
 					Inet4Address dstAddr = ipV4Packet.getHeader().getDstAddr();
-					short length = ipV4Packet.getHeader().getTotalLength();
+					//short length = ipV4Packet.getHeader().getTotalLength();
 					// int tcpLength = tcpPacket.getHeader()length();
 					boolean syn = tcpPacket.getHeader().getSyn();
 					boolean ack = tcpPacket.getHeader().getAck();
@@ -59,7 +59,7 @@ public class TcpStreams extends Thread {
 					}
 
 					this.cepLocal.sendEvent(
-							new PacketTest(srcAddr.toString(), dstAddr.toString(), length, syn, ack, synCount));
+							new PacketTest(srcAddr.toString(), dstAddr.toString(), syn, ack, synCount));
 					Thread.sleep(1000);
 
 				} catch (Exception e) {

@@ -1,25 +1,25 @@
-package br.ufpe.cin.beholder;
-
-//import org.pcap4j.packet.IpV4Packet;
-//import org.pcap4j.packet.Packet;
-
+package br.ufpe.cin.beholder.application;
 import com.espertech.esper.client.Configuration;
 import com.espertech.esper.client.EPServiceProvider;
 import com.espertech.esper.client.EPServiceProviderManager;
 import com.espertech.esper.client.EPStatement;
 
+import br.ufpe.cin.beholder.StreamApp;
+import br.ufpe.cin.beholder.messages.IcmpV4FloodListener;
 import br.ufpe.cin.beholder.messages.SynFloodListener;
 import br.ufpe.cin.beholder.messages.UdpFloodListener;
+import br.ufpe.cin.beholder.streams.Ipv4Streams;
+import br.ufpe.cin.beholder.streams.TcpStreams;
 import br.ufpe.cin.beholder.streams.UdpStreams;
 
-public class Main {
+public class App {
 
 	public static void main(String[] args) {
 		try {
 			Configuration config = new Configuration();
-			config.addEventType("eventStream", PacketTest.class);
-			config.addEventType("udpStreams", UdpStreams.class);
-			// config.addEventType("tcpStream", TcpStreams.class);
+			config.addEventType("tcptStream", TcpStreams.class);
+			config.addEventType("udpStream", UdpStreams.class);
+			config.addEventType("ipV4Stream", Ipv4Streams.class);
 
 			EPServiceProvider cep = EPServiceProviderManager.getProvider("esper", config);
 
@@ -33,10 +33,9 @@ public class Main {
 					.createEPL("select * from eventStream.win:time(1 sec) group by srcAddr where countUdpPacket > 10");
 			udpFloodStatement.addListener(new UdpFloodListener());
 
-			// ----------ICMP flood
-			// EPStatement icmpFloodStatement = cep.getEPAdministrator().createEPL("select *
-			// from eventStream.win:time where srcAddr = dstAddr and synCont > 100 ");
-			// icmpFloodStatement.addListener(new MyUpdateListener());
+			 //----------ICMP flood
+			EPStatement icmpFloodStatement = cep.getEPAdministrator().createEPL("select *from eventStream.win:time where srcAddr = dstAddr and synCont > 100 ");
+			icmpFloodStatement.addListener(new IcmpV4FloodListener());
 
 			new StreamApp(cep.getEPRuntime()).start();
 			System.out.println("--------------------------------------");

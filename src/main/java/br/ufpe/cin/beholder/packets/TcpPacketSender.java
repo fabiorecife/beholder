@@ -1,6 +1,6 @@
-package br.ufpe.cin.beholder.pcap;
+package br.ufpe.cin.beholder.packets;
 
-public class TcpPacket {
+public class TcpPacketSender {
 
 	private String srcAddr;
 	private String dstAddr;
@@ -9,7 +9,7 @@ public class TcpPacket {
 	private boolean ack;
 	private int synCount;
 
-	public TcpPacket(String srcAddr, String dstAddr,  short length, boolean syn, boolean ack, int synCount) {
+	public TcpPacketSender(String srcAddr, String dstAddr,  short length, boolean syn, boolean ack, int synCount) {
 		this.srcAddr = srcAddr;
 		this.dstAddr = dstAddr;
 		this.length = length;

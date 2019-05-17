@@ -12,8 +12,6 @@ import org.pcap4j.packet.Packet;
 
 import com.espertech.esper.client.EPRuntime;
 
-import br.ufpe.cin.beholder.pcap.Ipv4Packet;
-
 public class Ipv6Streams extends Thread {
 
 	private EPRuntime cepLocal;
@@ -44,7 +42,7 @@ public class Ipv6Streams extends Thread {
 					Inet6Address dstAddr = ipV6Packet.getHeader().getDstAddr();
 					short length = ipV6Packet.getHeader().getPayloadLength();
 
-					this.cepLocal.sendEvent(new Ipv4Packet(srcAddr.toString(), dstAddr.toString(), length));
+					this.cepLocal.sendEvent(new Ipv6PacketSender());
 					Thread.sleep(1000);
 
 				} catch (Exception e) {

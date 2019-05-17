@@ -11,6 +11,7 @@ import org.pcap4j.core.PcapNetworkInterface.PromiscuousMode;
 import org.pcap4j.packet.IpV4Packet;
 import org.pcap4j.packet.Packet;
 import org.pcap4j.packet.TcpPacket;
+//import org.pcap4j.packet.UdpPacket;
 
 import com.espertech.esper.client.EPRuntime;
 
@@ -23,16 +24,18 @@ public class StreamApp extends Thread {
 	}
 
 	public void run() {
+		int synCount = 0;
+
 		while (true) {
 			try {
-				InetAddress addr = InetAddress.getByName("192.168.0.104");
+				InetAddress addr = InetAddress.getByName("192.168.10.110");
 				PcapNetworkInterface nif = Pcaps.getDevByAddress(addr);
 
 				int snapLen = 65536;
 				PromiscuousMode mode = PromiscuousMode.PROMISCUOUS;
 				int timeout = 10;
 				PcapHandle handle = nif.openLive(snapLen, mode, timeout);
-				int synCount = 0;
+				// int countPacket = 0;
 
 				Packet packet = handle.getNextPacketEx();
 				handle.close();
@@ -45,32 +48,27 @@ public class StreamApp extends Thread {
 
 					Inet4Address srcAddr = ipV4Packet.getHeader().getSrcAddr();
 					Inet4Address dstAddr = ipV4Packet.getHeader().getDstAddr();
-					short length = ipV4Packet.getHeader().getTotalLength();
+					// short length = ipV4Packet.getHeader().getTotalLength();
 					// int tcpLength = tcpPacket.getHeader()length();
 					boolean syn = tcpPacket.getHeader().getSyn();
 					boolean ack = tcpPacket.getHeader().getAck();
 
-					// if (syn = true) {
-					// synCount++;
-					// }
-
-					if ((packet == packet.get(TcpPacket.class)) && (syn = true)) {
+					if (syn = true) {
 						synCount++;
-					}
+					} else
+						synCount = 0;
 
-					this.cepLocal.sendEvent(new PacketTest(srcAddr.toString(), dstAddr.toString(), length, syn, ack, synCount));
-					Thread.sleep(1000);
+					Thread.sleep(20);
+					this.cepLocal.sendEvent(new PacketTest(srcAddr.toString(), dstAddr.toString(), syn, ack, synCount));
+					System.out.println(tcpPacket);
 
 				} catch (Exception e) {
-					// TODO: handle exceptionc
-				}
-				System.out.println(packet);
+					// TODO: handle exception
 
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
 		}
-
 	}
 }
