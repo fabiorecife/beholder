@@ -4,21 +4,25 @@ public class TcpPacketSender {
 
 	private String srcAddr;
 	private String dstAddr;
-	private int length;
+	private short length;
 	private boolean syn;
 	private boolean ack;
 	private int synCount;
+	// TcpPacket tcpPacket;
 
-	public TcpPacketSender(String srcAddr, String dstAddr,  int length, boolean syn, boolean ack, int synCount) {
+	public TcpPacketSender(String srcAddr, String dstAddr, boolean syn, boolean ack, int synCount) {
 		this.srcAddr = srcAddr;
 		this.dstAddr = dstAddr;
-		this.length = length;
+		// this.length = length;
 		this.syn = syn;
 		this.ack = ack;
 		this.synCount = synCount;
+		// this.tcpPacket = tcpPacket;
+		// this.tcpPacket = tcpPacket;
+		// this.synCount = synCount;
 	}
 
-	public int getPacketLen() {
+	public short getPacketLen() {
 		return length;
 	}
 
@@ -38,20 +42,8 @@ public class TcpPacketSender {
 		this.dstAddr = dstAddr;
 	}
 
-	public int getLength() {
+	public short getLength() {
 		return length;
-	}
-
-	public void setLength(short length) {
-		this.length = length;
-	}
-
-	public int getSynCount() {
-		return synCount;
-	}
-
-	public void setSynCount(int synCount) {
-		this.synCount = synCount;
 	}
 
 	public boolean isSyn() {
@@ -62,12 +54,8 @@ public class TcpPacketSender {
 		return ack;
 	}
 
-	public void setSyn(boolean syn) {
-		this.syn = syn;
-	}
-
-	public void setAck(boolean ack) {
-		this.ack = ack;
+	public int getSynCount() {
+		return synCount;
 	}
 
 }

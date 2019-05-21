@@ -18,20 +18,20 @@ public class Main {
 		try {
 			Configuration config = new Configuration();
 			config.addEventType("eventStream", PacketTest.class);
-			config.addEventType("udpStreams", UdpStreams.class);
+			//config.addEventType("udpStreams", UdpStreams.class);
 			// config.addEventType("tcpStream", TcpStreams.class);
 
 			EPServiceProvider cep = EPServiceProviderManager.getProvider("esper", config);
 
 			// ---------Syn Flood
 			EPStatement synFloodStatement = cep.getEPAdministrator()
-					.createEPL("select *, count(syn) as CountSyn from eventStream.win:time(20 sec) having count(syn) > 3 and not(ack)");
+					.createEPL("select *  from eventStream.win:time(20 sec) having count(syn) > 3 and not(ack)");
 			synFloodStatement.addListener(new SynFloodListener());
 
 			// ----------UDP Flood
-			EPStatement udpFloodStatement = cep.getEPAdministrator()
-					.createEPL("select * from eventStream.win:time(1 sec) group by srcAddr where countUdpPacket > 10");
-			udpFloodStatement.addListener(new UdpFloodListener());
+			//EPStatement udpFloodStatement = cep.getEPAdministrator()
+					//.createEPL("select * from eventStream.win:time(1 sec) group by srcAddr where countUdpPacket > 10");
+			//udpFloodStatement.addListener(new UdpFloodListener());
 
 			// ----------ICMP flood
 			// EPStatement icmpFloodStatement = cep.getEPAdministrator().createEPL("select *

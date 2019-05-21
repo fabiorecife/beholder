@@ -28,7 +28,7 @@ public class StreamApp extends Thread {
 
 		while (true) {
 			try {
-				InetAddress addr = InetAddress.getByName("192.168.10.110");
+				InetAddress addr = InetAddress.getByName("10.5.50.251");
 				PcapNetworkInterface nif = Pcaps.getDevByAddress(addr);
 
 				int snapLen = 65536;
@@ -58,7 +58,7 @@ public class StreamApp extends Thread {
 					} else
 						synCount = 0;
 
-					Thread.sleep(20);
+					Thread.sleep(10);
 					this.cepLocal.sendEvent(new PacketTest(srcAddr.toString(), dstAddr.toString(), syn, ack, synCount));
 					System.out.println(tcpPacket);
 

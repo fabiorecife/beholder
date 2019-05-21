@@ -31,7 +31,7 @@ public class UdpStreams extends Thread {
 
 		while (true) {
 			try {
-				InetAddress addr = InetAddress.getByName("192.168.10.110");
+				InetAddress addr = InetAddress.getByName("10.5.50.251");
 				PcapNetworkInterface nif = Pcaps.getDevByAddress(addr);
 
 				int snapLen = 65536;
@@ -59,7 +59,7 @@ public class UdpStreams extends Thread {
 
 					Thread.sleep(20);
 					this.cepLocal.sendEvent(
-							new UdpPacketSender(srcAddr.toString(), dstAddr.toString(), srcPort, dstPort, countUdpPacket));
+							new UdpPacketSender(srcAddr.toString(), dstAddr.toString(), srcPort, dstPort, countUdpPacket, udpPacket));
 					System.out.println(udpPacket);
 
 				} catch (Exception e) {

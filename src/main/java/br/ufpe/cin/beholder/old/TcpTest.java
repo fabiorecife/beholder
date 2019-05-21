@@ -1,35 +1,32 @@
-package br.ufpe.cin.beholder.streams;
+package br.ufpe.cin.beholder.old;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;
 
 import org.pcap4j.core.PcapHandle;
 import org.pcap4j.core.PcapNetworkInterface;
-import org.pcap4j.core.PcapNetworkInterface.PromiscuousMode;
 import org.pcap4j.core.Pcaps;
+import org.pcap4j.core.PcapNetworkInterface.PromiscuousMode;
 import org.pcap4j.packet.IpV4Packet;
 import org.pcap4j.packet.Packet;
-import org.pcap4j.packet.namednumber.IcmpV4Type;
+import org.pcap4j.packet.TcpPacket;
 
 import com.espertech.esper.client.EPRuntime;
 
-import br.ufpe.cin.beholder.packets.Ipv4PacketSender;
-
-public class Ipv4Streams extends Thread {
+public class TcpTest extends Thread {
 
 	private EPRuntime cepLocal;
 
-	public Ipv4Streams(EPRuntime cepLocal) {
+	public TcpTest(EPRuntime cepLocal) {
 		this.cepLocal = cepLocal;
 	}
 
 	public void run() {
-		int icmpv4Count = 0;
-		int RequestCount = 0;
+		int synCount = 0;
 
 		while (true) {
 			try {
-				InetAddress addr = InetAddress.getByName("192.168.10.110");
+				InetAddress addr = InetAddress.getByName("10.5.50.251");
 				PcapNetworkInterface nif = Pcaps.getDevByAddress(addr);
 
 				int snapLen = 65536;
@@ -42,30 +39,26 @@ public class Ipv4Streams extends Thread {
 				handle.close();
 
 				IpV4Packet ipV4Packet = packet.get(IpV4Packet.class);
+				// IpV6Packet ipV6Packet = packet.get(IpV6Packet.class);
+				TcpPacket tcpPacket = packet.get(TcpPacket.class);
+
 				try {
 
 					Inet4Address srcAddr = ipV4Packet.getHeader().getSrcAddr();
 					Inet4Address dstAddr = ipV4Packet.getHeader().getDstAddr();
-					short length = ipV4Packet.getHeader().getTotalLength();
+					// short length = ipV4Packet.getHeader().getTotalLength();
+					// int tcpLength = tcpPacket.getHeader()length();
+					boolean syn = tcpPacket.getHeader().getSyn();
+					boolean ack = tcpPacket.getHeader().getAck();
 
-					//IcmpV4Type.ECHO_REPLY != null;
-					//IcmpV4Code
-					//icmpV4EchoReply
-					
-					if (IcmpV4Type.ECHO_REPLY == null) {
-						RequestCount++;
+					if (syn = true) {
+						synCount++;
 					} else
-						RequestCount = 0;
-					
-					//if (IpNumber.ICMPV4 != null) {
-					//	icmpv4Count++;
-					//} else
-					//	icmpv4Count = 0;
+						synCount = 0;
 
-					Thread.sleep(20);
-					this.cepLocal.sendEvent(
-							new Ipv4PacketSender(srcAddr.toString(), dstAddr.toString(), length, icmpv4Count));
-					System.out.println(ipV4Packet);
+					Thread.sleep(10);
+					this.cepLocal.sendEvent(new PacketTest(srcAddr.toString(), dstAddr.toString(), syn, ack, synCount));
+					System.out.println(tcpPacket);
 
 				} catch (Exception e) {
 					// TODO: handle exception

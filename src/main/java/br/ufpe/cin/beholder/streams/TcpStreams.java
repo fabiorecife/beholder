@@ -1,4 +1,5 @@
 package br.ufpe.cin.beholder.streams;
+
 import java.net.Inet4Address;
 //import java.net.Inet6Address;
 import java.net.InetAddress;
@@ -29,14 +30,14 @@ public class TcpStreams extends Thread {
 
 		while (true) {
 			try {
-				InetAddress addr = InetAddress.getByName("192.168.10.110");
+				InetAddress addr = InetAddress.getByName("10.5.50.251");
 				PcapNetworkInterface nif = Pcaps.getDevByAddress(addr);
 
 				int snapLen = 65536;
 				PromiscuousMode mode = PromiscuousMode.PROMISCUOUS;
-				int timeout = 10;
+				int timeout =10;
 				PcapHandle handle = nif.openLive(snapLen, mode, timeout);
-				// int countPacket = 0;
+				
 
 				Packet packet = handle.getNextPacketEx();
 				handle.close();
@@ -50,7 +51,7 @@ public class TcpStreams extends Thread {
 					Inet4Address srcAddr = ipV4Packet.getHeader().getSrcAddr();
 					Inet4Address dstAddr = ipV4Packet.getHeader().getDstAddr();
 					// short length = ipV4Packet.getHeader().getTotalLength();
-					int length = tcpPacket.getHeader().length();
+					// int tcpLength = tcpPacket.getHeader()length();
 					boolean syn = tcpPacket.getHeader().getSyn();
 					boolean ack = tcpPacket.getHeader().getAck();
 
@@ -59,8 +60,8 @@ public class TcpStreams extends Thread {
 					} else
 						synCount = 0;
 
-					Thread.sleep(20);
-					this.cepLocal.sendEvent(new TcpPacketSender(srcAddr.toString(), dstAddr.toString(), length, syn, ack, synCount));
+					Thread.sleep(10);
+					this.cepLocal.sendEvent(new TcpPacketSender(srcAddr.toString(), dstAddr.toString(), syn, ack, synCount));
 					System.out.println(tcpPacket);
 
 				} catch (Exception e) {
@@ -73,4 +74,3 @@ public class TcpStreams extends Thread {
 		}
 	}
 }
-
