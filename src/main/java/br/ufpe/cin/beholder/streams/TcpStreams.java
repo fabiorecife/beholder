@@ -54,6 +54,7 @@ public class TcpStreams extends Thread {
 					// int tcpLength = tcpPacket.getHeader()length();
 					boolean syn = tcpPacket.getHeader().getSyn();
 					boolean ack = tcpPacket.getHeader().getAck();
+					int packetLength = tcpPacket.getHeader().length();
 
 					if (syn = true) {
 						synCount++;
@@ -61,7 +62,7 @@ public class TcpStreams extends Thread {
 						synCount = 0;
 
 					Thread.sleep(10);
-					this.cepLocal.sendEvent(new TcpPacketSender(srcAddr.toString(), dstAddr.toString(), syn, ack, synCount));
+					this.cepLocal.sendEvent(new TcpPacketSender(srcAddr.toString(), dstAddr.toString(), packetLength, syn, ack, synCount));
 					System.out.println(tcpPacket);
 
 				} catch (Exception e) {

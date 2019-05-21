@@ -1,6 +1,8 @@
 package br.ufpe.cin.beholder.packets;
 
 import org.pcap4j.packet.UdpPacket;
+//import org.pcap4j.packet.UdpPacket;
+import org.pcap4j.packet.UdpPacket.UdpHeader;
 import org.pcap4j.packet.namednumber.UdpPort;
 
 //import java.net.InetAddress;
@@ -20,6 +22,7 @@ public class UdpPacketSender {
 	private UdpPort  dstPort;
 	private int countUdpPacket;
 	private UdpPacket udpPacket;
+	//private UdpHeader udpHeader;
 	// private boolean correctLengthAtBuild;
 	// private boolean correctChecksumAtBuild;
 
@@ -50,8 +53,8 @@ public class UdpPacketSender {
 	}
 
 	public int getCountUdpPacket() {
-		return countUdpPacket;
-	}
+	return countUdpPacket;
+}
 
 	public UdpPacket getUdpPacket() {
 		return udpPacket;

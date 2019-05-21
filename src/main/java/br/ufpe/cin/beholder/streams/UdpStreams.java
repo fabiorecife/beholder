@@ -11,6 +11,7 @@ import org.pcap4j.core.PcapNetworkInterface.PromiscuousMode;
 import org.pcap4j.packet.IpV4Packet;
 import org.pcap4j.packet.Packet;
 import org.pcap4j.packet.UdpPacket;
+import org.pcap4j.packet.UdpPacket.UdpHeader;
 //import org.pcap4j.packet.namednumber.UdpPort;
 import org.pcap4j.packet.namednumber.UdpPort;
 
@@ -52,12 +53,13 @@ public class UdpStreams extends Thread {
 					Inet4Address dstAddr = ipV4Packet.getHeader().getDstAddr();
 					UdpPort srcPort = udpPacket.getHeader().getSrcPort();
 					UdpPort dstPort = udpPacket.getHeader().getDstPort();
+					UdpHeader udpHeader = udpPacket.getHeader();
 
 					if (udpPacket != null) {
 						countUdpPacket++;
-					} 
+					}
 
-					Thread.sleep(20);
+					Thread.sleep(10);
 					this.cepLocal.sendEvent(
 							new UdpPacketSender(srcAddr.toString(), dstAddr.toString(), srcPort, dstPort, countUdpPacket, udpPacket));
 					System.out.println(udpPacket);

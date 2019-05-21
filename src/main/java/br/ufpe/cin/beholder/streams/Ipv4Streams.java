@@ -24,12 +24,12 @@ public class Ipv4Streams extends Thread {
 	}
 
 	public void run() {
-		int icmpv4Count = 0;
-		int RequestCount = 0;
+		//int icmpv4Count = 0;
+		//int echoCount = 0;
 
 		while (true) {
 			try {
-				InetAddress addr = InetAddress.getByName("192.168.10.110");
+				InetAddress addr = InetAddress.getByName("10.5.50.251");
 				PcapNetworkInterface nif = Pcaps.getDevByAddress(addr);
 
 				int snapLen = 65536;
@@ -47,24 +47,21 @@ public class Ipv4Streams extends Thread {
 					Inet4Address srcAddr = ipV4Packet.getHeader().getSrcAddr();
 					Inet4Address dstAddr = ipV4Packet.getHeader().getDstAddr();
 					short length = ipV4Packet.getHeader().getTotalLength();
+					
+					IcmpV4Type echo = new IcmpV4Type((byte) 8, "Echo");
 
-					//IcmpV4Type.ECHO_REPLY != null;
-					//IcmpV4Code
-					//icmpV4EchoReply
-					
-					if (IcmpV4Type.ECHO_REPLY == null) {
-						RequestCount++;
-					} else
-						RequestCount = 0;
-					
-					//if (IpNumber.ICMPV4 != null) {
-					//	icmpv4Count++;
+					//if (echo != null) {
+					//	echoCount++;
 					//} else
-					//	icmpv4Count = 0;
+					//	echoCount = 0;
+
+					// if (IpNumber.ICMPV4 != null) {
+					// icmpv4Count++;
+					// } else
+					// icmpv4Count = 0;
 
 					Thread.sleep(20);
-					this.cepLocal.sendEvent(
-							new Ipv4PacketSender(srcAddr.toString(), dstAddr.toString(), length, icmpv4Count));
+					this.cepLocal.sendEvent(new Ipv4PacketSender(srcAddr.toString(), dstAddr.toString(), length, echo));
 					System.out.println(ipV4Packet);
 
 				} catch (Exception e) {
